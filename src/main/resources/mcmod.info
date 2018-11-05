@@ -1,0 +1,16 @@
+[
+{
+  "modid": "hikethecountryside",
+  "name": "Hike the Countryside",
+  "description": "A new mod adds tea, rice and so on. ",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "",
+  "updateUrl": "",
+  "authorList": ["RoitoLeonine"],
+  "credits": "Lemon Slice Studio",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]
