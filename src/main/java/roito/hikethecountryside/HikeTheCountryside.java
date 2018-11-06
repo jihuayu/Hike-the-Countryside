@@ -8,7 +8,13 @@ import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import roito.hikethecountryside.common.CommonProxy;
 
-@Mod(modid = HikeTheCountryside.MODID, name = HikeTheCountryside.NAME, version = HikeTheCountryside.VERSION)
+@Mod(modid = HikeTheCountryside.MODID,
+		name = HikeTheCountryside.NAME,
+		version = HikeTheCountryside.VERSION,
+		dependencies = "required-after:forge@[14.23.5.2768,);" +
+				"required-after:kiwi@[0.2.4.2,)" +
+				"after:jei@[4.12.0.215,);")
+
 public class HikeTheCountryside
 {
 	public static final String MODID = "hikethecountryside";

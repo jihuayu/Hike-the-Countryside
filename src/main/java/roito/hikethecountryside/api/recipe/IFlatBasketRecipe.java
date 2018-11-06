@@ -8,6 +8,4 @@ public interface IFlatBasketRecipe
 	NonNullList<ItemStack> getInputs();
 
 	ItemStack getOutput();
-
-	ItemStack getWetOutput();
 }

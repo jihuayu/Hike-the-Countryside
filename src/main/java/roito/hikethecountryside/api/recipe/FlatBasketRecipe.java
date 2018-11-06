@@ -7,13 +7,12 @@ import net.minecraftforge.oredict.OreDictionary;
 public class FlatBasketRecipe implements IFlatBasketRecipe
 {
 	private final NonNullList<ItemStack> inputs;
-	private final ItemStack output, wetOutput;
+	private final ItemStack output;
 
-	public FlatBasketRecipe(NonNullList<ItemStack> inputs, ItemStack output, ItemStack wetOutput)
+	public FlatBasketRecipe(NonNullList<ItemStack> inputs, ItemStack output)
 	{
 		this.inputs = inputs;
 		this.output = output;
-		this.wetOutput = wetOutput;
 	}
 
 	@Override
@@ -29,17 +28,11 @@ public class FlatBasketRecipe implements IFlatBasketRecipe
 	}
 
 	@Override
-	public ItemStack getWetOutput()
-	{
-		return wetOutput.copy();
-	}
-
-	@Override
 	public boolean equals(Object r)
 	{
-		if(r instanceof IFlatBasketRecipe)
+		if (r instanceof IFlatBasketRecipe)
 		{
-			if(this.inputs.size() >= ((IFlatBasketRecipe) r).getInputs().size())
+			if (this.inputs.size() >= ((IFlatBasketRecipe) r).getInputs().size())
 			{
 				return OreDictionary.containsMatch(false, this.inputs, ((FlatBasketRecipe) r).getInputs().get(0));
 			}

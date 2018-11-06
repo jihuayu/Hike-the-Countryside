@@ -6,7 +6,7 @@ import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Collection;
 
-public class FlatBasketDryingRecipeManager implements IRecipeManager<IFlatBasketRecipe>
+public class FlatBasketRecipeManager implements IRecipeManager<IFlatBasketRecipe>
 {
 
 	@Override
@@ -59,5 +59,5 @@ public class FlatBasketDryingRecipeManager implements IRecipeManager<IFlatBasket
 		return null;
 	}
 
-	private static ArrayList<IFlatBasketRecipe> recipes = new ArrayList<>();
+	private ArrayList<IFlatBasketRecipe> recipes = new ArrayList<>();
 }

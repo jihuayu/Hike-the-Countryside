@@ -2,13 +2,12 @@ package roito.hikethecountryside.common;
 
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
-public class CreativeTabsRegister
+public class HCCreativeTabsRegister
 {
 	public static CreativeTabs tabCraft;
 
-	public CreativeTabsRegister(FMLPreInitializationEvent event)
+	public HCCreativeTabsRegister()
 	{
 		tabCraft = new CreativeTabs("tabCraft")
 		{

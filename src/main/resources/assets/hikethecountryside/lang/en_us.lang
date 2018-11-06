@@ -1,0 +1,23 @@
+#Blocks
+tile.hikethecountryside.flat_basket.name=Flat Basket
+
+#Items
+item.hikethecountryside.pork_jerky.name=Pork Jerky
+item.hikethecountryside.beef_jerky.name=Beef Jerky
+item.hikethecountryside.chicken_jerky.name=Chicken Jerky
+item.hikethecountryside.rabbit_jerky.name=Rabbit Jerky
+item.hikethecountryside.mutton_jerky.name=Mutton Jerky
+item.hikethecountryside.dried_carrot.name=Dried Carrot
+item.hikethecountryside.dried_beetroot.name=Dried Beetroot
+
+#Container
+container.hikethecountryside.flat_basket.rain=Pause when it's raining.
+container.hikethecountryside.flat_basket.in_rain=Pause when it's in rain.
+container.hikethecountryside.flat_basket.time=%1$smin %2$ss Left. %3$s Mode
+container.hikethecountryside.flat_basket.mode.0=Drying
+container.hikethecountryside.flat_basket.mode.1=Fermentation
+container.hikethecountryside.flat_basket.mode.2=Bake
+
+#JEI
+jei.hikethecountryside.category.flat_basket.drying=Drying
+jei.hikethecountryside.category.flat_basket.in_rain=In Rain
