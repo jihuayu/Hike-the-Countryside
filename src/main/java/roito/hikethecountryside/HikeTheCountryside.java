@@ -11,15 +11,16 @@ import roito.hikethecountryside.common.CommonProxy;
 @Mod(modid = HikeTheCountryside.MODID,
 		name = HikeTheCountryside.NAME,
 		version = HikeTheCountryside.VERSION,
+		acceptedMinecraftVersions = "[1.12.2,1.13)",
 		dependencies = "required-after:forge@[14.23.5.2768,);" +
-				"required-after:kiwi@[0.2.4.2,)" +
+				"required-after:kiwi@[0.2.4.2,);" +
 				"after:jei@[4.12.0.215,);")
 
 public class HikeTheCountryside
 {
 	public static final String MODID = "hikethecountryside";
 	public static final String NAME = "Hike the Countryside";
-	public static final String VERSION = "0.0.1";
+	public static final String VERSION = "@version@";
 
 	@Mod.Instance(HikeTheCountryside.MODID)
 	public static HikeTheCountryside instance;
