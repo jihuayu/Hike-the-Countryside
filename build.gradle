@@ -12,7 +12,7 @@ apply plugin: 'net.minecraftforge.gradle.forge'
 
 version = "${mod_version}.${System.getenv().BUILD_NUMBER}.${System.getenv().BUILD_DATE}"
 group = "roito.hikethecountryside"
-archivesBaseName = "hikethecountryside"
+archivesBaseName = "HikeTheCountryside-${minecraft_version}"
 
 [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
 
@@ -21,10 +21,33 @@ compileJava {
 }
 
 minecraft {
-    version = "1.12.2-14.23.5.2772"
+    version = "${minecraft_version}-${forge_version}"
     runDir = "run"
     
-    mappings = "stable_39"
+    mappings = "${mapping_version}"
+	
+	replace "@VERSION_INJECT@", project.version
+    makeObfSourceJar = true
+}
+
+task deobfJar(type: Jar) {
+    from(sourceSets.main.output)
+    archiveName = "${baseName}-${version}-deobf.${extension}"
+}
+
+artifacts {
+    archives deobfJar
+}
+
+task apiJar(type: Jar) {
+    classifier = 'api'
+    from(sourceSets.main.output)
+    from(sourceSets.main.allSource)
+    include 'roito/hikethecountryside/api/**'
+}
+
+artifacts {
+    archives apiJar
 }
 
 processResources {
