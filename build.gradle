@@ -10,11 +10,9 @@ buildscript {
 apply plugin: 'net.minecraftforge.gradle.forge'
 
 
-version = "0.0.1"
+version = "${mod_version}.${System.getenv().BUILD_NUMBER}.${System.getenv().BUILD_DATE}"
 group = "roito.hikethecountryside"
 archivesBaseName = "hikethecountryside"
-
-sourceCompatibility = targetCompatibility = '1.8' // Need this here so eclipse task generates correctly.
 
 [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
 
