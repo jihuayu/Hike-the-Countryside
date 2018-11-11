@@ -1,2 +1,5 @@
-@net.minecraftforge.fml.common.API(apiVersion = "0.0.1", owner = "hikethecountryside", provides = "HikeTheCountrysideAPI")
+@ParametersAreNonnullByDefault
+@net.minecraftforge.fml.common.API(apiVersion = "@version@", owner = "hikethecountryside", provides = "HikeTheCountrysideAPI")
 package roito.hikethecountryside.api;
+
+import javax.annotation.ParametersAreNonnullByDefault;

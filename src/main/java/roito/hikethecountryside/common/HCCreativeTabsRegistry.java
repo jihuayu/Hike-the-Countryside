@@ -3,11 +3,11 @@ package roito.hikethecountryside.common;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.ItemStack;
 
-public class HCCreativeTabsRegister
+public class HCCreativeTabsRegistry
 {
 	public static CreativeTabs tabCraft;
 
-	public HCCreativeTabsRegister()
+	public HCCreativeTabsRegistry()
 	{
 		tabCraft = new CreativeTabs("tabCraft")
 		{

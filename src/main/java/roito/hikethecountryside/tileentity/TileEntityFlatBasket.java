@@ -15,11 +15,8 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
-import roito.hikethecountryside.api.recipe.FlatBasketRecipe;
-import roito.hikethecountryside.api.recipe.HCRecipeRegister;
-import roito.hikethecountryside.api.recipe.IFlatBasketRecipe;
+import roito.hikethecountryside.api.recipe.*;
 import roito.hikethecountryside.config.ConfigMain;
-import roito.hikethecountryside.helper.NonNullListHelper;
 
 public class TileEntityFlatBasket extends TileEntity implements ITickable
 {
@@ -99,108 +96,92 @@ public class TileEntityFlatBasket extends TileEntity implements ITickable
 	{
 		if (!world.isRemote)
 		{
-			ItemStack input = this.inputInventory.getStackInSlot(0).copy();
-			IFlatBasketRecipe recipeIn = new FlatBasketRecipe(NonNullListHelper.createNonNullList(input), ItemStack.EMPTY);
 			refreshTotalTicks();
-			if (isInRain())
+			switch (this.getMode())
 			{
-				IFlatBasketRecipe recipeUse = new FlatBasketRecipe(NonNullListHelper.createNonNullList(ItemStack.EMPTY), ItemStack.EMPTY);
-				for (IFlatBasketRecipe recipe : HCRecipeRegister.managerFlatBasketWet.getRecipes())
+				case -1:
 				{
-					if (recipe.equals(recipeIn))
-					{
-						recipeUse = recipe;
-						break;
-					}
+					getWet();
+					return;
 				}
-				if (!recipeUse.getOutput().isEmpty())
+				case 1:
 				{
-					ItemStack wetOutput = recipeUse.getOutput().copy();
-					wetOutput.setCount(inputInventory.getStackInSlot(0).getCount());
-					this.inputInventory.setStackInSlot(0, wetOutput);
-					refresh();
+					process(HCRecipeRegistry.managerFlatBasketFermentation);
+					return;
 				}
-
-				IFlatBasketRecipe recipeOut = new FlatBasketRecipe(NonNullListHelper.createNonNullList(outputInventory.getStackInSlot(0).copy()), ItemStack.EMPTY);
-				recipeUse = new FlatBasketRecipe(NonNullListHelper.createNonNullList(ItemStack.EMPTY), ItemStack.EMPTY);
-				for (IFlatBasketRecipe recipe : HCRecipeRegister.managerFlatBasketWet.getRecipes())
+				case 2:
 				{
-					if (recipe.equals(recipeOut))
-					{
-						recipeUse = recipe;
-						break;
-					}
+					process(HCRecipeRegistry.managerFlatBasketBake);
+					return;
 				}
-				if (!recipeUse.getOutput().isEmpty())
+				default:
 				{
-					ItemStack wetOutput = recipeUse.getOutput().copy();
-					wetOutput.setCount(outputInventory.getStackInSlot(0).getCount());
-					this.outputInventory.setStackInSlot(0, wetOutput);
-					refresh();
-				}
-				this.processTicks = 0;
-				this.markDirty();
-				return;
-			}
-			if (getMode() == 0 && !isWorldRaining())
-			{
-				IFlatBasketRecipe recipeUse = new FlatBasketRecipe(NonNullListHelper.createNonNullList(ItemStack.EMPTY), ItemStack.EMPTY);
-				for (IFlatBasketRecipe recipe : HCRecipeRegister.managerFlatBasketDrying.getRecipes())
-				{
-					if (recipe.equals(recipeIn))
+					if (!this.isWorldRaining())
 					{
-						recipeUse = recipe;
-						break;
+						process(HCRecipeRegistry.managerFlatBasketDrying);
 					}
-				}
-				if (!recipeUse.getOutput().isEmpty())
-				{
-					ItemStack output = recipeUse.getOutput().copy();
-					output.setCount(input.getCount());
-					if (judge(output))
-					{
-						this.outputInventory.insertItem(0, output, false);
-						this.inputInventory.extractItem(0, output.getCount(), false);
-						refresh();
-						return;
-					}
-					else
-					{
-						return;
-					}
+					return;
 				}
 			}
-			else if (getMode() == 1)
-			{
-
-			}
-			else
-			{
-
-			}
-			this.processTicks = 0;
-			this.markDirty();
-			return;
 		}
 	}
 
-	private boolean judge(ItemStack itemStack)
+	private boolean process(IRecipeManager<IFlatBasketRecipe> recipeManager)
 	{
-		if (this.outputInventory.insertItem(0, itemStack, true).isEmpty())
+		IFlatBasketRecipe recipe = recipeManager.getRecipe(this.inputInventory.getStackInSlot(0));
+		if (recipe != null)
 		{
-			if (++this.processTicks >= this.totalTicks)
+			ItemStack output = recipe.getOutput().copy();
+			output.setCount(this.inputInventory.getStackInSlot(0).getCount());
+			if (this.outputInventory.insertItem(0, output, true).isEmpty())
 			{
+				if (++this.processTicks >= this.totalTicks)
+				{
+					this.outputInventory.insertItem(0, output, false);
+					this.inputInventory.extractItem(0, output.getCount(), false);
+					refresh();
+					this.processTicks = 0;
+				}
 				this.markDirty();
-				this.processTicks = 0;
 				return true;
 			}
-			this.markDirty();
 		}
+		this.processTicks = 0;
+		this.markDirty();
 		return false;
 	}
 
+	private void getWet()
+	{
+		this.processTicks = 0;
+		IFlatBasketRecipe recipe = HCRecipeRegistry.managerFlatBasketWet.getRecipe(this.inputInventory.getStackInSlot(0));
+		if (recipe != null)
+		{
+			ItemStack wetOutput = recipe.getOutput().copy();
+			wetOutput.setCount(inputInventory.getStackInSlot(0).getCount());
+			this.inputInventory.setStackInSlot(0, wetOutput);
+			refresh();
+		}
+		recipe = HCRecipeRegistry.managerFlatBasketWet.getRecipe(this.outputInventory.getStackInSlot(0));
+		if (recipe != null)
+		{
+			ItemStack wetOutput = recipe.getOutput().copy();
+			wetOutput.setCount(outputInventory.getStackInSlot(0).getCount());
+			this.outputInventory.setStackInSlot(0, wetOutput);
+			refresh();
+		}
+		this.markDirty();
+	}
+
+	/*
+		-1 for in rain, 0 for drying, 1 for fermentation, 2 for bake.
+	 */
 	public int getMode()
 	{
+		if (this.isInRain())
+		{
+			return -1;
+		}
 		if (this.hasHeat())
 		{
 			return 2;
@@ -217,14 +198,16 @@ public class TileEntityFlatBasket extends TileEntity implements ITickable
 
 	public NonNullList<ItemStack> getContents()
 	{
-		if (!this.outputInventory.getStackInSlot(0).isEmpty())
+		NonNullList<ItemStack> list = NonNullList.create();
+		for (int i = this.outputInventory.getStackInSlot(0).getCount(); i > 0; i -= 32)
 		{
-			return NonNullListHelper.createNonNullList(this.outputInventory.getStackInSlot(0));
+			list.add(this.outputInventory.getStackInSlot(0));
 		}
-		else
+		for (int i = this.inputInventory.getStackInSlot(0).getCount(); i > 0; i -= 32)
 		{
-			return NonNullListHelper.createNonNullList(this.inputInventory.getStackInSlot(0));
+			list.add(this.inputInventory.getStackInSlot(0));
 		}
+		return list;
 	}
 
 	public void refreshTotalTicks()

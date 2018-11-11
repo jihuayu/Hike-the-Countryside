@@ -2,9 +2,9 @@ package roito.hikethecountryside.common;
 
 import net.minecraftforge.oredict.OreDictionary;
 
-public class HCOreDictionaryRegister
+public class HCOreDictionaryRegistry
 {
-    public HCOreDictionaryRegister()
+    public HCOreDictionaryRegistry()
     {
         OreDictionary.registerOre("foodJerky", HCBlocksItemsRegistry.BEEF_JERKY);
         OreDictionary.registerOre("foodJerky", HCBlocksItemsRegistry.CHICKEN_JERKY);

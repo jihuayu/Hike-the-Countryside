@@ -10,11 +10,11 @@ import roito.hikethecountryside.client.gui.GuiContainerFlatBasket;
 
 import javax.annotation.Nullable;
 
-public class HCGuiElementRegister implements IGuiHandler
+public class HCGuiElementRegistry implements IGuiHandler
 {
 	public static final int GUI_FLAT_BASKET = 0;
 
-	public HCGuiElementRegister()
+	public HCGuiElementRegistry()
 	{
 		NetworkRegistry.INSTANCE.registerGuiHandler(HikeTheCountryside.instance, this);
 	}

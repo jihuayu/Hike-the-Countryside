@@ -13,7 +13,7 @@ import roito.hikethecountryside.common.CommonProxy;
 		version = HikeTheCountryside.VERSION,
 		acceptedMinecraftVersions = "[1.12.2,1.13)",
 		dependencies = "required-after:forge@[14.23.5.2768,);" +
-				"required-after:kiwi@[0.2.4.2,);" +
+				"required-after:kiwi@[0.3.0.6,);" +
 				"after:jei@[4.12.0.215,);")
 
 public class HikeTheCountryside

@@ -6,9 +6,9 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 import roito.hikethecountryside.HikeTheCountryside;
 import roito.hikethecountryside.tileentity.TileEntityFlatBasket;
 
-public class HCTileEntityRegister
+public class HCTileEntityRegistry
 {
-	public HCTileEntityRegister()
+	public HCTileEntityRegistry()
 	{
 		registerTileEntity(TileEntityFlatBasket.class, "flat_basket");
 	}

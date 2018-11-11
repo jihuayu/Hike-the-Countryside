@@ -1,0 +1,56 @@
+package roito.hikethecountryside.api.recipe;
+
+import net.minecraft.init.Items;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.NonNullList;
+import net.minecraftforge.oredict.OreDictionary;
+import roito.hikethecountryside.common.HCBlocksItemsRegistry;
+import roito.hikethecountryside.helper.NonNullListHelper;
+
+import javax.annotation.Nonnull;
+
+public class HCRecipeRegistry
+{
+	@Nonnull
+	public static IRecipeManager<IFlatBasketRecipe> managerFlatBasketDrying, managerFlatBasketWet, managerFlatBasketFermentation, managerFlatBasketBake;
+
+	public HCRecipeRegistry()
+	{
+		managerFlatBasketDrying = new FlatBasketRecipeManager();
+		managerFlatBasketWet = new FlatBasketRecipeManager();
+		managerFlatBasketFermentation = new FlatBasketRecipeManager();
+		managerFlatBasketBake = new FlatBasketRecipeManager();
+
+		addFlatBasketDryingRecipes();
+		addFlatBasketWetRecipes();
+	}
+
+	private static void addFlatBasketDryingRecipes()
+	{
+		addFlatBasketRecipe(managerFlatBasketDrying, NonNullListHelper.createNonNullList(new ItemStack(Items.ROTTEN_FLESH)), new ItemStack(Items.LEATHER));
+		addFlatBasketRecipe(managerFlatBasketDrying, NonNullListHelper.createNonNullList(new ItemStack(Items.RABBIT)), new ItemStack(HCBlocksItemsRegistry.RABBIT_JERKY));
+		addFlatBasketRecipe(managerFlatBasketDrying, NonNullListHelper.createNonNullList(new ItemStack(Items.PORKCHOP)), new ItemStack(HCBlocksItemsRegistry.PORK_JERKY));
+		addFlatBasketRecipe(managerFlatBasketDrying, NonNullListHelper.createNonNullList(new ItemStack(Items.BEEF)), new ItemStack(HCBlocksItemsRegistry.BEEF_JERKY));
+		addFlatBasketRecipe(managerFlatBasketDrying, NonNullListHelper.createNonNullList(new ItemStack(Items.MUTTON)), new ItemStack(HCBlocksItemsRegistry.MUTTON_JERKY));
+		addFlatBasketRecipe(managerFlatBasketDrying, NonNullListHelper.createNonNullList(new ItemStack(Items.CHICKEN)), new ItemStack(HCBlocksItemsRegistry.CHICKEN_JERKY));
+		addFlatBasketRecipe(managerFlatBasketDrying, NonNullListHelper.createNonNullList(new ItemStack(Items.BEETROOT)), new ItemStack(HCBlocksItemsRegistry.DRIED_BEETROOT));
+		addFlatBasketRecipe(managerFlatBasketDrying, NonNullListHelper.createNonNullList(new ItemStack(Items.CARROT)), new ItemStack(HCBlocksItemsRegistry.DRIED_CARROT));
+		addFlatBasketRecipe(managerFlatBasketDrying, OreDictionary.getOres("foodJerky"), new ItemStack(Items.LEATHER));
+	}
+
+	private static void addFlatBasketWetRecipes()
+	{
+		addFlatBasketRecipe(managerFlatBasketWet, NonNullListHelper.createNonNullList(new ItemStack(HCBlocksItemsRegistry.RABBIT_JERKY)), new ItemStack(Items.RABBIT));
+		addFlatBasketRecipe(managerFlatBasketWet, NonNullListHelper.createNonNullList(new ItemStack(HCBlocksItemsRegistry.PORK_JERKY)), new ItemStack(Items.PORKCHOP));
+		addFlatBasketRecipe(managerFlatBasketWet, NonNullListHelper.createNonNullList(new ItemStack(HCBlocksItemsRegistry.BEEF_JERKY)), new ItemStack(Items.BEEF));
+		addFlatBasketRecipe(managerFlatBasketWet, NonNullListHelper.createNonNullList(new ItemStack(HCBlocksItemsRegistry.MUTTON_JERKY)), new ItemStack(Items.MUTTON));
+		addFlatBasketRecipe(managerFlatBasketWet, NonNullListHelper.createNonNullList(new ItemStack(HCBlocksItemsRegistry.CHICKEN_JERKY)), new ItemStack(Items.CHICKEN));
+		addFlatBasketRecipe(managerFlatBasketWet, NonNullListHelper.createNonNullList(new ItemStack(HCBlocksItemsRegistry.DRIED_CARROT)), new ItemStack(Items.CARROT));
+		addFlatBasketRecipe(managerFlatBasketWet, NonNullListHelper.createNonNullList(new ItemStack(HCBlocksItemsRegistry.DRIED_BEETROOT)), new ItemStack(Items.BEETROOT));
+	}
+
+	public static void addFlatBasketRecipe(IRecipeManager<IFlatBasketRecipe> recipeManager, NonNullList<ItemStack> inputs, ItemStack output)
+	{
+		recipeManager.add(new FlatBasketRecipe(inputs, output));
+	}
+}

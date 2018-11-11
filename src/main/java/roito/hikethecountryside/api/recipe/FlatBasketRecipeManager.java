@@ -1,6 +1,7 @@
 package roito.hikethecountryside.api.recipe;
 
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.NonNullList;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
@@ -54,6 +55,33 @@ public class FlatBasketRecipeManager implements IRecipeManager<IFlatBasketRecipe
 			if (r.getOutput().isItemEqual((ItemStack) inputs[0]))
 			{
 				return r;
+			}
+		}
+		return null;
+	}
+
+	@Nullable
+	public IFlatBasketRecipe getRecipe(ItemStack input)
+	{
+		for (IFlatBasketRecipe recipe : recipes)
+		{
+			if (recipe.isTheSameInput(input))
+			{
+				return recipe;
+			}
+		}
+		return null;
+	}
+
+	@Nullable
+	public IFlatBasketRecipe getRecipe(NonNullList<ItemStack> inputs)
+	{
+		for (ItemStack input : inputs)
+		{
+			IFlatBasketRecipe recipe = getRecipe(input);
+			if (recipe != null)
+			{
+				return recipe;
 			}
 		}
 		return null;

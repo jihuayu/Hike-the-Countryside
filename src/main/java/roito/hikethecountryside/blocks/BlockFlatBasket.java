@@ -19,8 +19,8 @@ import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.IItemHandlerModifiable;
 import roito.hikethecountryside.HikeTheCountryside;
-import roito.hikethecountryside.common.HCCreativeTabsRegister;
-import roito.hikethecountryside.inventory.HCGuiElementRegister;
+import roito.hikethecountryside.common.HCCreativeTabsRegistry;
+import roito.hikethecountryside.inventory.HCGuiElementRegistry;
 import roito.hikethecountryside.tileentity.TileEntityFlatBasket;
 
 import javax.annotation.Nullable;
@@ -37,7 +37,7 @@ public class BlockFlatBasket extends HCBlock implements ITileEntityProvider
 
 	public BlockFlatBasket()
 	{
-		super(Material.WOOD, SoundType.WOOD, "flat_basket", HCCreativeTabsRegister.tabCraft, 0.5F, false, false);
+		super(Material.WOOD, SoundType.WOOD, "flat_basket", HCCreativeTabsRegistry.tabCraft, 0.5F, false, false);
 	}
 
 	public void addCollisionBoxToList(IBlockState state, World worldIn, BlockPos pos, AxisAlignedBB entityBox, List<AxisAlignedBB> collidingBoxes, @Nullable Entity entityIn, boolean isActualState)
@@ -97,7 +97,7 @@ public class BlockFlatBasket extends HCBlock implements ITileEntityProvider
 	{
 		if (!worldIn.isRemote)
 		{
-			int id = HCGuiElementRegister.GUI_FLAT_BASKET;
+			int id = HCGuiElementRegistry.GUI_FLAT_BASKET;
 			playerIn.openGui(HikeTheCountryside.instance, id, worldIn, pos.getX(), pos.getY(), pos.getZ());
 		}
 		return true;

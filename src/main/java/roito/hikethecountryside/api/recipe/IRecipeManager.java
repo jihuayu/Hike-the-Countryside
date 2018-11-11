@@ -1,5 +1,8 @@
 package roito.hikethecountryside.api.recipe;
 
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.NonNullList;
+
 import java.util.Collection;
 
 public interface IRecipeManager<R>
@@ -13,4 +16,8 @@ public interface IRecipeManager<R>
 	Collection<R> getRecipes();
 
 	<T> R getRecipe(T... input);
+
+	IFlatBasketRecipe getRecipe(ItemStack input);
+
+	IFlatBasketRecipe getRecipe(NonNullList<ItemStack> inputs);
 }

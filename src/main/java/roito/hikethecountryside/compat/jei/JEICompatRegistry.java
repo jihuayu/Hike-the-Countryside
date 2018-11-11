@@ -10,7 +10,7 @@ import roito.hikethecountryside.client.gui.GuiContainerFlatBasket;
 import roito.hikethecountryside.common.HCBlocksItemsRegistry;
 
 @JEIPlugin
-public class JEICompatRegister implements IModPlugin
+public class JEICompatRegistry implements IModPlugin
 {
 
     @Override

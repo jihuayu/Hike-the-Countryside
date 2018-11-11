@@ -42,9 +42,10 @@ public class TESRFlatBasket extends TileEntitySpecialRenderer<TileEntityFlatBask
 		for (ItemStack stack : list)
 		{
 			GlStateManager.pushMatrix();
-			int seed = stack.hashCode();
+			int seed = stack.hashCode() + count * 4447;
 
-			GlStateManager.scale(0.6, 0.6, 0.6);
+			GlStateManager.scale(0.5, 0.5, 0.5);
+			GlStateManager.translate(((seed % 100) - 50) / 150D, 0 + count / 10D, ((seed % 56) - 28) / 84D);
 			GlStateManager.rotate(360 * (seed % 943) / 943F, 0, 1, 0);
 			GlStateManager.rotate(90, 1, 0, 0);
 

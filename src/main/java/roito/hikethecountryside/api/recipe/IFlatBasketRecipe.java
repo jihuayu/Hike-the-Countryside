@@ -8,4 +8,6 @@ public interface IFlatBasketRecipe
 	NonNullList<ItemStack> getInputs();
 
 	ItemStack getOutput();
+
+	boolean isTheSameInput(ItemStack input);
 }

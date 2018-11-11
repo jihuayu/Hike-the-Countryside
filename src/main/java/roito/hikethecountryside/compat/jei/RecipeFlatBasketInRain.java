@@ -3,7 +3,7 @@ package roito.hikethecountryside.compat.jei;
 import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.recipe.IRecipeWrapper;
 import net.minecraft.item.ItemStack;
-import roito.hikethecountryside.api.recipe.HCRecipeRegister;
+import roito.hikethecountryside.api.recipe.HCRecipeRegistry;
 import roito.hikethecountryside.api.recipe.IFlatBasketRecipe;
 import roito.hikethecountryside.helper.NonNullListHelper;
 
@@ -15,7 +15,7 @@ public class RecipeFlatBasketInRain implements IRecipeWrapper
 	public static List<RecipeFlatBasketInRain> getWrappedRecipeList()
 	{
 		List<RecipeFlatBasketInRain> recipesToReturn = new ArrayList<>();
-		for (IFlatBasketRecipe recipe : HCRecipeRegister.managerFlatBasketWet.getRecipes())
+		for (IFlatBasketRecipe recipe : HCRecipeRegistry.managerFlatBasketWet.getRecipes())
 		{
 			recipesToReturn.add(new RecipeFlatBasketInRain(recipe));
 		}
