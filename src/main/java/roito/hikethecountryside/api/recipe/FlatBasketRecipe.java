@@ -4,6 +4,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
 import net.minecraftforge.oredict.OreDictionary;
 
+import javax.annotation.Nonnull;
+
 public class FlatBasketRecipe implements IFlatBasketRecipe
 {
 	private final NonNullList<ItemStack> inputs;
@@ -27,8 +29,8 @@ public class FlatBasketRecipe implements IFlatBasketRecipe
 		return output.copy();
 	}
 
-	public boolean isTheSameInput(ItemStack input)
+	public boolean isTheSameInput(@Nonnull ItemStack input)
 	{
-		return OreDictionary.containsMatch(false, inputs, input);
+		return !this.output.isEmpty() && OreDictionary.containsMatch(false, inputs, input);
 	}
 }

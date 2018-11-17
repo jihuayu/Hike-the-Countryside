@@ -38,13 +38,13 @@ public final class ConfigMain
 		@Config.LangKey("config.hikethecountryside.craft.dryingbasictime")
 		@Config.Name("DryingBasicTime")
 		@Config.RangeInt(min = 0, max = 12000)
-		public int dryingBasicTime = 800;
+		public int dryingBasicTime = 600;
 
 		@Config.Comment("The ticks of fermentation per item. (1 second = 20 ticks)")
 		@Config.LangKey("config.hikethecountryside.craft.fermentationbasictime")
 		@Config.Name("FermentationBasicTime")
 		@Config.RangeInt(min = 0, max = 12000)
-		public int fermentationBasicTime = 1200;
+		public int fermentationBasicTime = 600;
 	}
 
 	public static final class Others

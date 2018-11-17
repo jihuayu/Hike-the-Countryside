@@ -3,6 +3,7 @@ package roito.hikethecountryside.api.recipe;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -61,7 +62,7 @@ public class FlatBasketRecipeManager implements IRecipeManager<IFlatBasketRecipe
 	}
 
 	@Nullable
-	public IFlatBasketRecipe getRecipe(ItemStack input)
+	public IFlatBasketRecipe getRecipe(@Nonnull ItemStack input)
 	{
 		for (IFlatBasketRecipe recipe : recipes)
 		{
@@ -74,7 +75,7 @@ public class FlatBasketRecipeManager implements IRecipeManager<IFlatBasketRecipe
 	}
 
 	@Nullable
-	public IFlatBasketRecipe getRecipe(NonNullList<ItemStack> inputs)
+	public IFlatBasketRecipe getRecipe(@Nonnull NonNullList<ItemStack> inputs)
 	{
 		for (ItemStack input : inputs)
 		{

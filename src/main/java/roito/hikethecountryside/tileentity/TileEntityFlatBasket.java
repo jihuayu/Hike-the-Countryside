@@ -12,11 +12,13 @@ import net.minecraft.util.ITickable;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraft.world.biome.Biome;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
 import roito.hikethecountryside.api.recipe.*;
 import roito.hikethecountryside.config.ConfigMain;
+import roito.hikethecountryside.helper.EntironmentHelper;
 
 public class TileEntityFlatBasket extends TileEntity implements ITickable
 {
@@ -96,21 +98,24 @@ public class TileEntityFlatBasket extends TileEntity implements ITickable
 	{
 		if (!world.isRemote)
 		{
-			refreshTotalTicks();
+			Biome biome = this.getWorld().getBiome(pos);
 			switch (this.getMode())
 			{
 				case -1:
 				{
+					refreshTotalTicks(0);
 					getWet();
 					return;
 				}
 				case 1:
 				{
+					refreshTotalTicks(EntironmentHelper.getFermentationTicks(biome.getRainfall(), biome.getTemperature(pos)));
 					process(HCRecipeRegistry.managerFlatBasketFermentation);
 					return;
 				}
 				case 2:
 				{
+					refreshTotalTicks(200);
 					process(HCRecipeRegistry.managerFlatBasketBake);
 					return;
 				}
@@ -118,6 +123,7 @@ public class TileEntityFlatBasket extends TileEntity implements ITickable
 				{
 					if (!this.isWorldRaining())
 					{
+						refreshTotalTicks(EntironmentHelper.getDryingTicks(biome.getRainfall(), biome.getTemperature(pos)));
 						process(HCRecipeRegistry.managerFlatBasketDrying);
 					}
 					return;
@@ -128,11 +134,16 @@ public class TileEntityFlatBasket extends TileEntity implements ITickable
 
 	private boolean process(IRecipeManager<IFlatBasketRecipe> recipeManager)
 	{
-		IFlatBasketRecipe recipe = recipeManager.getRecipe(this.inputInventory.getStackInSlot(0));
+		ItemStack input = this.inputInventory.getStackInSlot(0).copy();
+		if (input.isEmpty())
+		{
+			return false;
+		}
+		IFlatBasketRecipe recipe = recipeManager.getRecipe(input);
 		if (recipe != null)
 		{
 			ItemStack output = recipe.getOutput().copy();
-			output.setCount(this.inputInventory.getStackInSlot(0).getCount());
+			output.setCount(input.getCount());
 			if (this.outputInventory.insertItem(0, output, true).isEmpty())
 			{
 				if (++this.processTicks >= this.totalTicks)
@@ -199,24 +210,24 @@ public class TileEntityFlatBasket extends TileEntity implements ITickable
 	public NonNullList<ItemStack> getContents()
 	{
 		NonNullList<ItemStack> list = NonNullList.create();
-		for (int i = this.outputInventory.getStackInSlot(0).getCount(); i > 0; i -= 32)
+		for (int i = this.outputInventory.getStackInSlot(0).getCount(); i > 0; i -= 16)
 		{
 			list.add(this.outputInventory.getStackInSlot(0));
 		}
-		for (int i = this.inputInventory.getStackInSlot(0).getCount(); i > 0; i -= 32)
+		for (int i = this.inputInventory.getStackInSlot(0).getCount(); i > 0; i -= 16)
 		{
 			list.add(this.inputInventory.getStackInSlot(0));
 		}
 		return list;
 	}
 
-	public void refreshTotalTicks()
+	public void refreshTotalTicks(int basicTime)
 	{
 		if (inputInventory.getStackInSlot(0).getCount() >= 32)
 		{
 			this.totalTicks = 32;
 		}
-		else if (inputInventory.getStackInSlot(0).getCount() <= 8)
+		else if (inputInventory.getStackInSlot(0).getCount() > 0 && inputInventory.getStackInSlot(0).getCount() <= 8)
 		{
 			this.totalTicks = 8;
 		}
@@ -224,7 +235,7 @@ public class TileEntityFlatBasket extends TileEntity implements ITickable
 		{
 			this.totalTicks = inputInventory.getStackInSlot(0).getCount();
 		}
-		this.totalTicks *= ConfigMain.craft.dryingBasicTime;
+		this.totalTicks *= basicTime;
 	}
 
 	public int getTotalTicks()

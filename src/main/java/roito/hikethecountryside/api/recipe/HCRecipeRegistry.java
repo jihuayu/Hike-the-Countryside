@@ -23,6 +23,8 @@ public class HCRecipeRegistry
 
 		addFlatBasketDryingRecipes();
 		addFlatBasketWetRecipes();
+		addFlatBasketFermentationRecipes();
+		addFlatBasketBakeRecipes();
 	}
 
 	private static void addFlatBasketDryingRecipes()
@@ -47,6 +49,17 @@ public class HCRecipeRegistry
 		addFlatBasketRecipe(managerFlatBasketWet, NonNullListHelper.createNonNullList(new ItemStack(HCBlocksItemsRegistry.CHICKEN_JERKY)), new ItemStack(Items.CHICKEN));
 		addFlatBasketRecipe(managerFlatBasketWet, NonNullListHelper.createNonNullList(new ItemStack(HCBlocksItemsRegistry.DRIED_CARROT)), new ItemStack(Items.CARROT));
 		addFlatBasketRecipe(managerFlatBasketWet, NonNullListHelper.createNonNullList(new ItemStack(HCBlocksItemsRegistry.DRIED_BEETROOT)), new ItemStack(Items.BEETROOT));
+	}
+
+	private static void addFlatBasketFermentationRecipes()
+	{
+		addFlatBasketRecipe(managerFlatBasketFermentation, OreDictionary.getOres("listAllmeatraw"), new ItemStack(Items.ROTTEN_FLESH));
+		addFlatBasketRecipe(managerFlatBasketFermentation, NonNullListHelper.createNonNullList(new ItemStack(Items.SPIDER_EYE)), new ItemStack(Items.FERMENTED_SPIDER_EYE));
+	}
+
+	private static void addFlatBasketBakeRecipes()
+	{
+		addFlatBasketRecipe(managerFlatBasketBake, NonNullListHelper.createNonNullList(new ItemStack(Items.BEETROOT)), new ItemStack(HCBlocksItemsRegistry.DRIED_BEETROOT));
 	}
 
 	public static void addFlatBasketRecipe(IRecipeManager<IFlatBasketRecipe> recipeManager, NonNullList<ItemStack> inputs, ItemStack output)

@@ -10,7 +10,7 @@ buildscript {
 apply plugin: 'net.minecraftforge.gradle.forge'
 
 
-version = "${mod_version}.${System.getenv().BUILD_NUMBER}.${System.getenv().BUILD_DATE}"
+version = "${mod_version}-B${System.getenv().BUILD_NUMBER}.${System.getenv().BUILD_DATE}"
 group = "roito.hikethecountryside"
 archivesBaseName = "HikeTheCountryside-${minecraft_version}"
 
