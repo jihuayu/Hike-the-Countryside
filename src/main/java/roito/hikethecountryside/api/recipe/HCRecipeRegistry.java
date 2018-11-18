@@ -59,7 +59,6 @@ public class HCRecipeRegistry
 
 	private static void addFlatBasketBakeRecipes()
 	{
-		addFlatBasketRecipe(managerFlatBasketBake, NonNullListHelper.createNonNullList(new ItemStack(Items.BEETROOT)), new ItemStack(HCBlocksItemsRegistry.DRIED_BEETROOT));
 	}
 
 	public static void addFlatBasketRecipe(IRecipeManager<IFlatBasketRecipe> recipeManager, NonNullList<ItemStack> inputs, ItemStack output)

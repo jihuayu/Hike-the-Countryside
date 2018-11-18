@@ -19,7 +19,6 @@ import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.IItemHandlerModifiable;
 import roito.hikethecountryside.HikeTheCountryside;
-import roito.hikethecountryside.common.HCCreativeTabsRegistry;
 import roito.hikethecountryside.inventory.HCGuiElementRegistry;
 import roito.hikethecountryside.tileentity.TileEntityFlatBasket;
 
@@ -37,7 +36,7 @@ public class BlockFlatBasket extends HCBlock implements ITileEntityProvider
 
 	public BlockFlatBasket()
 	{
-		super(Material.WOOD, SoundType.WOOD, "flat_basket", HCCreativeTabsRegistry.tabCraft, 0.5F, false, false);
+		super(Material.WOOD, SoundType.WOOD, "flat_basket", HikeTheCountryside.TAB_CRAFT, 0.5F, false, false);
 	}
 
 	public void addCollisionBoxToList(IBlockState state, World worldIn, BlockPos pos, AxisAlignedBB entityBox, List<AxisAlignedBB> collidingBoxes, @Nullable Entity entityIn, boolean isActualState)

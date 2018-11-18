@@ -10,8 +10,6 @@ public class CommonProxy
 {
 	public void preInit(FMLPreInitializationEvent event)
 	{
-		new HCCreativeTabsRegistry();
-		new HCBlocksItemsRegistry();
 		new HCTileEntityRegistry();
 	}
 

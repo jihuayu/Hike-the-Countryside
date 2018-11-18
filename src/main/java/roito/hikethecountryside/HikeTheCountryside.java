@@ -1,5 +1,7 @@
 package roito.hikethecountryside;
 
+import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.SidedProxy;
@@ -7,6 +9,8 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import roito.hikethecountryside.common.CommonProxy;
+import roito.hikethecountryside.common.HCBlocksItemsRegistry;
+import roito.hikethecountryside.common.HCCreativeTabs;
 
 @Mod(modid = HikeTheCountryside.MODID,
 		name = HikeTheCountryside.NAME,
@@ -21,6 +25,8 @@ public class HikeTheCountryside
 	public static final String MODID = "hikethecountryside";
 	public static final String NAME = "Hike the Countryside";
 	public static final String VERSION = "@version@";
+
+	public static final CreativeTabs TAB_CRAFT = new HCCreativeTabs();
 
 	@Mod.Instance(HikeTheCountryside.MODID)
 	public static HikeTheCountryside instance;
