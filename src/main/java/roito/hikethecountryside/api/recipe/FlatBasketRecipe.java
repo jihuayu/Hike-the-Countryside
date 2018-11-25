@@ -3,11 +3,13 @@ package roito.hikethecountryside.api.recipe;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
 import net.minecraftforge.oredict.OreDictionary;
+import roito.hikethecountryside.helper.NonNullListHelper;
 
 import javax.annotation.Nonnull;
 
 public class FlatBasketRecipe implements IFlatBasketRecipe
 {
+	public static final IFlatBasketRecipe EMPTY_RECIPE = new FlatBasketRecipe(NonNullListHelper.createNonNullList(ItemStack.EMPTY), ItemStack.EMPTY);
 	private final NonNullList<ItemStack> inputs;
 	private final ItemStack output;
 

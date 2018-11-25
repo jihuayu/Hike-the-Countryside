@@ -10,6 +10,8 @@ import snownee.kiwi.KiwiModule;
 public class HCBlocksItemsRegistry implements IModule
 {
 	public static final BlockFlatBasket BLOCK_FLAT_BASKET = new BlockFlatBasket();
+	public static final BlockStoveStone BLOCK_STOVE_STONE = new BlockStoveStone(0.0F, 1.0F, "stove_stone");
+	public static final BlockStoveStone BLOCK_LIT_STOVE_STONE = new BlockStoveStone(1.0F, 1.0F, "lit_stove_stone");
 
 	public static final HCItemFood PORK_JERKY = new HCItemFood("pork_jerky", 10, 1.6F, true, HikeTheCountryside.TAB_CRAFT);
 	public static final HCItemFood BEEF_JERKY = new HCItemFood("beef_jerky", 10, 1.6F, true, HikeTheCountryside.TAB_CRAFT);

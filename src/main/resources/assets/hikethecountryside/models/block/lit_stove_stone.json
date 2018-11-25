@@ -1,0 +1,7 @@
+{
+    "parent": "hikethecountryside:block/stove_stone",
+    "textures": {
+        "0": "hikethecountryside:blocks/lit_stove_stone",
+		"particle": "hikethecountryside:blocks/lit_stove_stone"
+    }
+}

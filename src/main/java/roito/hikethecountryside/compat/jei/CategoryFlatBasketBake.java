@@ -13,36 +13,36 @@ import roito.hikethecountryside.HikeTheCountryside;
 public class CategoryFlatBasketBake implements IRecipeCategory<IRecipeWrapper>
 {
 
-    protected final IDrawable background;
-    protected final IDrawableAnimated progressBar;
-    protected final IDrawableStatic fire;
+	protected final IDrawable background;
+	protected final IDrawableAnimated progressBar;
+	protected final IDrawableStatic fire;
 
-    public CategoryFlatBasketBake(IGuiHelper helper)
-    {
-        ResourceLocation backgroundTexture = new ResourceLocation(HikeTheCountryside.MODID, "textures/gui/container/gui_flat_basket.png");
-        background = helper.createDrawable(backgroundTexture, 50, 28, 76, 38);
-	    IDrawableStatic progressBarOverlay = helper.createDrawable(backgroundTexture, 176, 0, 24, 17);
-	    progressBar = helper.createAnimatedDrawable(progressBarOverlay, 300, IDrawableAnimated.StartDirection.LEFT, false);
-        fire = helper.createDrawable(backgroundTexture, 176, 16, 14, 14);
-    }
+	public CategoryFlatBasketBake(IGuiHelper helper)
+	{
+		ResourceLocation backgroundTexture = new ResourceLocation(HikeTheCountryside.MODID, "textures/gui/container/gui_flat_basket.png");
+		background = helper.createDrawable(backgroundTexture, 50, 28, 76, 38);
+		IDrawableStatic progressBarOverlay = helper.createDrawable(backgroundTexture, 176, 0, 24, 17);
+		progressBar = helper.createAnimatedDrawable(progressBarOverlay, 300, IDrawableAnimated.StartDirection.LEFT, false);
+		fire = helper.createDrawable(backgroundTexture, 176, 16, 14, 14);
+	}
 
-    @Override
-    public String getUid()
-    {
-        return "hikethecountryside.flat_basket.bake";
-    }
+	@Override
+	public String getUid()
+	{
+		return "hikethecountryside.flat_basket.bake";
+	}
 
-    @Override
-    public String getTitle()
-    {
-        return I18n.format("jei.hikethecountryside.category.flat_basket.bake");
-    }
+	@Override
+	public String getTitle()
+	{
+		return I18n.format("jei.hikethecountryside.category.flat_basket.bake");
+	}
 
-    @Override
-    public IDrawable getBackground()
-    {
-        return background;
-    }
+	@Override
+	public IDrawable getBackground()
+	{
+		return background;
+	}
 
 	@Override
 	public void drawExtras(Minecraft minecraft)
@@ -51,24 +51,24 @@ public class CategoryFlatBasketBake implements IRecipeCategory<IRecipeWrapper>
 		fire.draw(minecraft, 30, 21);
 	}
 
-    public void setRecipe(IRecipeLayout recipeLayout, IRecipeWrapper recipeWrapper)
-    {
-        IGuiItemStackGroup items = recipeLayout.getItemStacks();
-        items.init(0, true, 2, 2);
-        items.set(0, ((RecipeFlatBasketBake) recipeWrapper).getInputs());
-        items.init(1, false, 56, 2);
-        items.set(1, ((RecipeFlatBasketBake) recipeWrapper).getOutputs());
-    }
+	public void setRecipe(IRecipeLayout recipeLayout, IRecipeWrapper recipeWrapper)
+	{
+		IGuiItemStackGroup items = recipeLayout.getItemStacks();
+		items.init(0, true, 2, 2);
+		items.set(0, ((RecipeFlatBasketBake) recipeWrapper).getInputs());
+		items.init(1, false, 56, 2);
+		items.set(1, ((RecipeFlatBasketBake) recipeWrapper).getOutputs());
+	}
 
-    @Override
-    public void setRecipe(IRecipeLayout recipeLayout, IRecipeWrapper recipeWrapper, IIngredients ingredients)
-    {
-        setRecipe(recipeLayout, recipeWrapper);
-    }
+	@Override
+	public void setRecipe(IRecipeLayout recipeLayout, IRecipeWrapper recipeWrapper, IIngredients ingredients)
+	{
+		setRecipe(recipeLayout, recipeWrapper);
+	}
 
-    @Override
-    public String getModName()
-    {
-        return "HikeTheCountry";
-    }
+	@Override
+	public String getModName()
+	{
+		return "HikeTheCountry";
+	}
 }

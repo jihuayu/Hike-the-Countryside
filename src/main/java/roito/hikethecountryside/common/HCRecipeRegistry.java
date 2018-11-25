@@ -1,9 +1,10 @@
-package roito.hikethecountryside.api.recipe;
+package roito.hikethecountryside.common;
 
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
 import net.minecraftforge.oredict.OreDictionary;
+import roito.hikethecountryside.api.recipe.*;
 import roito.hikethecountryside.common.HCBlocksItemsRegistry;
 import roito.hikethecountryside.helper.NonNullListHelper;
 
@@ -16,10 +17,10 @@ public class HCRecipeRegistry
 
 	public HCRecipeRegistry()
 	{
-		managerFlatBasketDrying = new FlatBasketRecipeManager();
-		managerFlatBasketWet = new FlatBasketRecipeManager();
-		managerFlatBasketFermentation = new FlatBasketRecipeManager();
-		managerFlatBasketBake = new FlatBasketRecipeManager();
+		managerFlatBasketDrying = new FlatBasketDryingRecipeManager();
+		managerFlatBasketWet = new FlatBasketWetRecipeManager();
+		managerFlatBasketFermentation = new FlatBasketFermentationRecipeManager();
+		managerFlatBasketBake = new FlatBasketBakeRecipeManager();
 
 		addFlatBasketDryingRecipes();
 		addFlatBasketWetRecipes();
@@ -59,6 +60,15 @@ public class HCRecipeRegistry
 
 	private static void addFlatBasketBakeRecipes()
 	{
+		addFlatBasketRecipe(managerFlatBasketBake, NonNullListHelper.createNonNullList(new ItemStack(Items.ROTTEN_FLESH)), new ItemStack(Items.LEATHER));
+		addFlatBasketRecipe(managerFlatBasketBake, NonNullListHelper.createNonNullList(new ItemStack(Items.RABBIT)), new ItemStack(HCBlocksItemsRegistry.RABBIT_JERKY));
+		addFlatBasketRecipe(managerFlatBasketBake, NonNullListHelper.createNonNullList(new ItemStack(Items.PORKCHOP)), new ItemStack(HCBlocksItemsRegistry.PORK_JERKY));
+		addFlatBasketRecipe(managerFlatBasketBake, NonNullListHelper.createNonNullList(new ItemStack(Items.BEEF)), new ItemStack(HCBlocksItemsRegistry.BEEF_JERKY));
+		addFlatBasketRecipe(managerFlatBasketBake, NonNullListHelper.createNonNullList(new ItemStack(Items.MUTTON)), new ItemStack(HCBlocksItemsRegistry.MUTTON_JERKY));
+		addFlatBasketRecipe(managerFlatBasketBake, NonNullListHelper.createNonNullList(new ItemStack(Items.CHICKEN)), new ItemStack(HCBlocksItemsRegistry.CHICKEN_JERKY));
+		addFlatBasketRecipe(managerFlatBasketBake, NonNullListHelper.createNonNullList(new ItemStack(Items.BEETROOT)), new ItemStack(HCBlocksItemsRegistry.DRIED_BEETROOT));
+		addFlatBasketRecipe(managerFlatBasketBake, NonNullListHelper.createNonNullList(new ItemStack(Items.CARROT)), new ItemStack(HCBlocksItemsRegistry.DRIED_CARROT));
+		addFlatBasketRecipe(managerFlatBasketBake, OreDictionary.getOres("foodJerky"), new ItemStack(Items.LEATHER));
 	}
 
 	public static void addFlatBasketRecipe(IRecipeManager<IFlatBasketRecipe> recipeManager, NonNullList<ItemStack> inputs, ItemStack output)

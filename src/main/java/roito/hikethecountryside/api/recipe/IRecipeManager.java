@@ -15,9 +15,7 @@ public interface IRecipeManager<R>
 
 	Collection<R> getRecipes();
 
-	<T> R getRecipe(T... input);
+	R getRecipe(ItemStack input);
 
-	IFlatBasketRecipe getRecipe(ItemStack input);
-
-	IFlatBasketRecipe getRecipe(NonNullList<ItemStack> inputs);
+	R getRecipe(NonNullList<ItemStack> inputs);
 }

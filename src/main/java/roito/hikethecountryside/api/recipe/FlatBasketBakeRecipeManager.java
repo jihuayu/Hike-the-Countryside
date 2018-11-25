@@ -4,13 +4,13 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
 
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Collection;
 
-public class FlatBasketRecipeManager implements IRecipeManager<IFlatBasketRecipe>
-{
+import static roito.hikethecountryside.api.recipe.FlatBasketRecipe.EMPTY_RECIPE;
 
+public class FlatBasketBakeRecipeManager implements IRecipeManager<IFlatBasketRecipe>
+{
 	@Override
 	public boolean equal(IFlatBasketRecipe recipe1, IFlatBasketRecipe recipe2)
 	{
@@ -43,25 +43,8 @@ public class FlatBasketRecipeManager implements IRecipeManager<IFlatBasketRecipe
 		return recipes;
 	}
 
-	@Nullable
+	@Nonnull
 	@Override
-	public <T> IFlatBasketRecipe getRecipe(T... inputs)
-	{
-		if (inputs[0] == null || !(inputs[0] instanceof ItemStack))
-		{
-			return null;
-		}
-		for (IFlatBasketRecipe r : recipes)
-		{
-			if (r.getOutput().isItemEqual((ItemStack) inputs[0]))
-			{
-				return r;
-			}
-		}
-		return null;
-	}
-
-	@Nullable
 	public IFlatBasketRecipe getRecipe(@Nonnull ItemStack input)
 	{
 		for (IFlatBasketRecipe recipe : recipes)
@@ -71,10 +54,11 @@ public class FlatBasketRecipeManager implements IRecipeManager<IFlatBasketRecipe
 				return recipe;
 			}
 		}
-		return null;
+		return EMPTY_RECIPE;
 	}
 
-	@Nullable
+	@Nonnull
+	@Override
 	public IFlatBasketRecipe getRecipe(@Nonnull NonNullList<ItemStack> inputs)
 	{
 		for (ItemStack input : inputs)
@@ -85,8 +69,8 @@ public class FlatBasketRecipeManager implements IRecipeManager<IFlatBasketRecipe
 				return recipe;
 			}
 		}
-		return null;
+		return EMPTY_RECIPE;
 	}
 
-	private ArrayList<IFlatBasketRecipe> recipes = new ArrayList<>();
+	private static ArrayList<IFlatBasketRecipe> recipes = new ArrayList<>();
 }

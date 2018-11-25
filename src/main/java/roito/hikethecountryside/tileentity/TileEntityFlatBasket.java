@@ -16,17 +16,21 @@ import net.minecraft.world.biome.Biome;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
+import roito.hikethecountryside.api.block.IBlockStove;
 import roito.hikethecountryside.api.recipe.*;
-import roito.hikethecountryside.config.ConfigMain;
+import roito.hikethecountryside.common.HCRecipeRegistry;
 import roito.hikethecountryside.helper.EntironmentHelper;
+
+import static roito.hikethecountryside.api.recipe.FlatBasketRecipe.EMPTY_RECIPE;
 
 public class TileEntityFlatBasket extends TileEntity implements ITickable
 {
 	protected int processTicks = 0;
 	protected int totalTicks = 0;
+	protected IFlatBasketRecipe usedRecipe = EMPTY_RECIPE;
 
-	protected ItemStackHandler inputInventory = new ItemStackHandler(1);
-	protected ItemStackHandler outputInventory = new ItemStackHandler(1);
+	protected ItemStackHandler inputInventory = new ItemStackHandler();
+	protected ItemStackHandler outputInventory = new ItemStackHandler();
 
 	@Override
 	public boolean hasCapability(Capability<?> capability, EnumFacing facing)
@@ -139,10 +143,13 @@ public class TileEntityFlatBasket extends TileEntity implements ITickable
 		{
 			return false;
 		}
-		IFlatBasketRecipe recipe = recipeManager.getRecipe(input);
-		if (recipe != null)
+		if (!usedRecipe.isTheSameInput(this.inputInventory.getStackInSlot(0)))
 		{
-			ItemStack output = recipe.getOutput().copy();
+			usedRecipe = recipeManager.getRecipe(this.inputInventory.getStackInSlot(0));
+		}
+		if (usedRecipe != EMPTY_RECIPE)
+		{
+			ItemStack output = usedRecipe.getOutput().copy();
 			output.setCount(input.getCount());
 			if (this.outputInventory.insertItem(0, output, true).isEmpty())
 			{
@@ -165,20 +172,15 @@ public class TileEntityFlatBasket extends TileEntity implements ITickable
 	private void getWet()
 	{
 		this.processTicks = 0;
-		IFlatBasketRecipe recipe = HCRecipeRegistry.managerFlatBasketWet.getRecipe(this.inputInventory.getStackInSlot(0));
-		if (recipe != null)
+		if (!usedRecipe.isTheSameInput(this.inputInventory.getStackInSlot(0)))
 		{
-			ItemStack wetOutput = recipe.getOutput().copy();
+			usedRecipe = HCRecipeRegistry.managerFlatBasketWet.getRecipe(this.inputInventory.getStackInSlot(0));
+		}
+		if (usedRecipe != EMPTY_RECIPE)
+		{
+			ItemStack wetOutput = usedRecipe.getOutput().copy();
 			wetOutput.setCount(inputInventory.getStackInSlot(0).getCount());
 			this.inputInventory.setStackInSlot(0, wetOutput);
-			refresh();
-		}
-		recipe = HCRecipeRegistry.managerFlatBasketWet.getRecipe(this.outputInventory.getStackInSlot(0));
-		if (recipe != null)
-		{
-			ItemStack wetOutput = recipe.getOutput().copy();
-			wetOutput.setCount(outputInventory.getStackInSlot(0).getCount());
-			this.outputInventory.setStackInSlot(0, wetOutput);
 			refresh();
 		}
 		this.markDirty();
@@ -260,7 +262,11 @@ public class TileEntityFlatBasket extends TileEntity implements ITickable
 
 	public boolean hasHeat()
 	{
-		return this.getWorld().getBlockState(getPos().down()).getBlock() == Blocks.LIT_FURNACE.getDefaultState().getBlock();
+		if (this.getWorld().getBlockState(getPos().down()).getBlock() instanceof IBlockStove)
+		{
+			return ((IBlockStove)this.getWorld().getBlockState(getPos().down()).getBlock()).isBurning(getWorld(), pos.down());
+		}
+		return false;
 	}
 
 	public int getProcessTicks()

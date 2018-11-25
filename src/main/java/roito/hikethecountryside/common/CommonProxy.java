@@ -3,7 +3,6 @@ package roito.hikethecountryside.common;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import roito.hikethecountryside.api.recipe.HCRecipeRegistry;
 import roito.hikethecountryside.inventory.HCGuiElementRegistry;
 
 public class CommonProxy

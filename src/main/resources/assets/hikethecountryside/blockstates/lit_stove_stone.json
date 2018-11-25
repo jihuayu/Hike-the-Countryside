@@ -1,0 +1,8 @@
+{
+    "variants": {
+        "facing=north": { "model": "hikethecountryside:lit_stove_stone" },
+        "facing=south": { "model": "hikethecountryside:lit_stove_stone", "y": 180 },
+        "facing=west":  { "model": "hikethecountryside:lit_stove_stone", "y": 270 },
+        "facing=east":  { "model": "hikethecountryside:lit_stove_stone", "y": 90 }
+    }
+}

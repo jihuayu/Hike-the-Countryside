@@ -6,10 +6,10 @@ import roito.hikethecountryside.api.recipe.IFlatBasketRecipe;
 
 public class RecipeWrapperFlatBasket implements IRecipeWrapperFactory<IFlatBasketRecipe>
 {
-    @Override
-    public IRecipeWrapper getRecipeWrapper(IFlatBasketRecipe recipe)
-    {
-        return new RecipeFlatBasketDrying(recipe);
-    }
+	@Override
+	public IRecipeWrapper getRecipeWrapper(IFlatBasketRecipe recipe)
+	{
+		return new RecipeFlatBasketDrying(recipe);
+	}
 }
 
