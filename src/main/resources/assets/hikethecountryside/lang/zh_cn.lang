@@ -1,5 +1,6 @@
 #Blocks
 tile.hikethecountryside.flat_basket.name=匾（竹篾匾）
+tile.hikethecountryside.stove_stone.name=石制炉灶
 
 #Items
 item.hikethecountryside.pork_jerky.name=猪肉脯
@@ -21,3 +22,5 @@ container.hikethecountryside.flat_basket.mode.2=烘焙
 #JEI
 jei.hikethecountryside.category.flat_basket.drying=干燥
 jei.hikethecountryside.category.flat_basket.in_rain=淋雨
+jei.hikethecountryside.category.flat_basket.fermentation=发酵
+jei.hikethecountryside.category.flat_basket.bake=烘焙

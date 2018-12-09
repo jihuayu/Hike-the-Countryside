@@ -53,7 +53,7 @@ public class GuiContainerFlatBasket extends GuiContainer
 		this.drawTexturedModalRect(offsetX + 76, offsetY + 31, 176, 0, textureWidth, 17);
 		if (this.inventory.hasHeat())
 		{
-			this.drawTexturedModalRect(offsetX + 80, offsetY + 50, 176, 17, 14, 14);
+			this.drawTexturedModalRect(offsetX + 81, offsetY + 50, 176, 17, 14, 14);
 		}
 	}
 

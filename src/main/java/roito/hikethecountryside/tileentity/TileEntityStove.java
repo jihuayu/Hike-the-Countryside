@@ -9,6 +9,7 @@ import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
+import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
@@ -104,6 +105,7 @@ public class TileEntityStove extends TileEntity implements ITickable
 			{
 				BlockStoveStone.setState(false, this.getWorld(), pos);
 			}
+			refresh();
 		}
 	}
 
@@ -162,5 +164,24 @@ public class TileEntityStove extends TileEntity implements ITickable
 	public boolean shouldRefresh(World world, BlockPos pos, IBlockState oldState, IBlockState newSate)
 	{
 		return oldState.getBlock() != newSate.getBlock();
+	}
+
+	public NonNullList<ItemStack> getContents()
+	{
+		NonNullList<ItemStack> list = NonNullList.create();
+		for (int i = this.fuelInventory.getStackInSlot(0).getCount(); i > 0; i -= 4)
+		{
+			list.add(this.fuelInventory.getStackInSlot(0));
+		}
+		return list;
+	}
+
+	void refresh()
+	{
+		if (hasWorld() && !world.isRemote)
+		{
+			IBlockState state = world.getBlockState(pos);
+			world.markAndNotifyBlock(pos, null, state, state, 11);
+		}
 	}
 }

@@ -48,7 +48,7 @@ public class CategoryFlatBasketBake implements IRecipeCategory<IRecipeWrapper>
 	public void drawExtras(Minecraft minecraft)
 	{
 		progressBar.draw(minecraft, 26, 3);
-		fire.draw(minecraft, 30, 21);
+		fire.draw(minecraft, 31, 21);
 	}
 
 	public void setRecipe(IRecipeLayout recipeLayout, IRecipeWrapper recipeWrapper)
