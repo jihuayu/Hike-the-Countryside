@@ -3,8 +3,10 @@ package roito.hikethecountryside.common;
 import roito.hikethecountryside.HikeTheCountryside;
 import roito.hikethecountryside.blocks.*;
 import roito.hikethecountryside.items.HCItemFood;
+import roito.hikethecountryside.items.ItemWeatherForecast;
 import snownee.kiwi.IModule;
 import snownee.kiwi.KiwiModule;
+import snownee.kiwi.item.ItemMod;
 
 @KiwiModule(modid = HikeTheCountryside.MODID)
 public class HCBlocksItemsRegistry implements IModule
@@ -20,4 +22,6 @@ public class HCBlocksItemsRegistry implements IModule
 	public static final HCItemFood MUTTON_JERKY = new HCItemFood("mutton_jerky", 8, 1.6F, true, HikeTheCountryside.TAB_CRAFT);
 	public static final HCItemFood DRIED_CARROT = new HCItemFood("dried_carrot", 5, 1.2F, false, HikeTheCountryside.TAB_CRAFT);
 	public static final HCItemFood DRIED_BEETROOT = new HCItemFood("dried_beetroot", 3, 1.2F, false, HikeTheCountryside.TAB_CRAFT);
+
+	public static final ItemMod ITEM_WEATHER_FORECAST = new ItemWeatherForecast();
 }

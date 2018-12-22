@@ -30,6 +30,12 @@ minecraft {
     makeObfSourceJar = true
 }
 
+jar {
+    manifest {
+       attributes 'HCAT': 'hikethecountryside_at.cfg'
+    }
+}
+
 task deobfJar(type: Jar) {
     from(sourceSets.main.output)
     archiveName = "${baseName}-${version}-deobf.${extension}"
@@ -92,6 +98,6 @@ dependencies {
         exclude group: 'cofh'
     }
     compile files(
-        'libs/Kiwi-1.12.2-0.3.0.6-deobf.jar'
+        'libs/Kiwi-1.12.2-0.4.1.10-deobf.jar'
     )
 }
