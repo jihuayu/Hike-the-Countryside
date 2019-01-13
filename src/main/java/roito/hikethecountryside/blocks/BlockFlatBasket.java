@@ -39,6 +39,7 @@ public class BlockFlatBasket extends HCBlock implements ITileEntityProvider
 		super(Material.WOOD, SoundType.WOOD, "flat_basket", HikeTheCountryside.TAB_CRAFT, 0.5F, false, false);
 	}
 
+	@Override
 	public void addCollisionBoxToList(IBlockState state, World worldIn, BlockPos pos, AxisAlignedBB entityBox, List<AxisAlignedBB> collidingBoxes, @Nullable Entity entityIn, boolean isActualState)
 	{
 		addCollisionBoxToList(pos, entityBox, collidingBoxes, AABB_BOTTOM);
@@ -48,6 +49,7 @@ public class BlockFlatBasket extends HCBlock implements ITileEntityProvider
 		addCollisionBoxToList(pos, entityBox, collidingBoxes, AABB_SIDE4);
 	}
 
+	@Override
 	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos)
 	{
 		return AABB;
@@ -63,9 +65,10 @@ public class BlockFlatBasket extends HCBlock implements ITileEntityProvider
 	@Override
 	public void breakBlock(World worldIn, BlockPos pos, IBlockState state)
 	{
-		if (worldIn.getTileEntity(pos) != null && (worldIn.getTileEntity(pos) instanceof TileEntityFlatBasket))
+		TileEntity tile = worldIn.getTileEntity(pos);
+		if (tile instanceof TileEntityFlatBasket)
 		{
-			TileEntityFlatBasket te = (TileEntityFlatBasket) worldIn.getTileEntity(pos);
+			TileEntityFlatBasket te = (TileEntityFlatBasket) tile;
 			IItemHandler inputInventory = te.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, EnumFacing.UP);
 			IItemHandler outputInventory = te.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, EnumFacing.DOWN);
 

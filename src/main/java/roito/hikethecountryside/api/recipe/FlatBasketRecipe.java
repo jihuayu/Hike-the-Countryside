@@ -31,6 +31,7 @@ public class FlatBasketRecipe implements IFlatBasketRecipe
 		return output.copy();
 	}
 
+	@Override
 	public boolean isTheSameInput(@Nonnull ItemStack input)
 	{
 		return !this.output.isEmpty() && OreDictionary.containsMatch(false, inputs, input);

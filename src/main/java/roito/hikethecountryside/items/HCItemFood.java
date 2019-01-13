@@ -16,17 +16,20 @@ public class HCItemFood extends ItemFood implements IModItem
 		this.setCreativeTab(tab);
 	}
 
+	@Override
 	public String getName()
 	{
 		return this.name;
 	}
 
+	@Override
 	public void register(String modid)
 	{
 		this.setRegistryName(modid, this.getName());
 		this.setTranslationKey(modid + "." + this.getName());
 	}
 
+	@Override
 	public Item cast()
 	{
 		return this;
