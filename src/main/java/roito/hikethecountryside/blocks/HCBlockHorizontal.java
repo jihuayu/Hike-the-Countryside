@@ -12,11 +12,10 @@ public class HCBlockHorizontal extends BlockModHorizontal
 	private boolean opaqueCube;
 	private boolean fullCube;
 
-	public HCBlockHorizontal(Material materialIn, SoundType sound, String name, CreativeTabs tab, float hardness, boolean opaqueCube, boolean fullCube)
+	public HCBlockHorizontal(Material materialIn, String name, CreativeTabs tab, float hardness, boolean opaqueCube, boolean fullCube)
 	{
 		super(name, materialIn);
 		this.setHardness(hardness);
-		this.setSoundType(sound);
 		this.setCreativeTab(tab);
 		this.opaqueCube = opaqueCube;
 		this.fullCube = fullCube;

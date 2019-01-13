@@ -25,22 +25,22 @@ import roito.hikethecountryside.tileentity.TileEntityStove;
 import javax.annotation.Nullable;
 import java.util.Random;
 
-public class BlockStoveStone extends HCBlockHorizontal implements IBlockStove, ITileEntityProvider
+public class BlockStoveStone extends HCBlockHorizontal implements IBlockStove
 {
 	public float efficiency;
 	private static boolean keepInventory = false;
 
 	public BlockStoveStone(float lightLevel, float efficiency, String name)
 	{
-		super(Material.ROCK, SoundType.STONE, name, lightLevel == 0.0F ? HikeTheCountryside.TAB_CRAFT : null, 3.5F, false, false);
+		super(Material.ROCK, name, lightLevel == 0.0F ? HikeTheCountryside.TAB_CRAFT : null, 3.5F, false, false);
 		this.setLightLevel(lightLevel);
 		this.efficiency = efficiency;
 	}
 
 	@Override
-	public boolean isBurning(World worldIn, BlockPos pos)
+	public boolean isBurning(IBlockState state)
 	{
-		return worldIn.getBlockState(pos).getBlock().equals(HCBlocksItemsRegistry.BLOCK_LIT_STOVE_STONE);
+		return state.getBlock() == HCBlocksItemsRegistry.BLOCK_LIT_STOVE_STONE;
 	}
 
 	@Override
@@ -49,9 +49,14 @@ public class BlockStoveStone extends HCBlockHorizontal implements IBlockStove, I
 		return efficiency;
 	}
 
-	@Nullable
 	@Override
-	public TileEntity createNewTileEntity(World worldIn, int meta)
+	public boolean hasTileEntity(IBlockState state)
+	{
+		return true;
+	}
+
+	@Override
+	public TileEntity createTileEntity(World world, IBlockState state)
 	{
 		return new TileEntityStove();
 	}
@@ -59,9 +64,10 @@ public class BlockStoveStone extends HCBlockHorizontal implements IBlockStove, I
 	@Override
 	public void breakBlock(World worldIn, BlockPos pos, IBlockState state)
 	{
-		if (!keepInventory && worldIn.getTileEntity(pos) != null && (worldIn.getTileEntity(pos) instanceof TileEntityStove))
+		TileEntity tile = worldIn.getTileEntity(pos);
+		if (!keepInventory &&  tile instanceof TileEntityStove)
 		{
-			TileEntityStove te = (TileEntityStove) worldIn.getTileEntity(pos);
+			TileEntityStove te = (TileEntityStove) tile;
 			IItemHandler fuelInventory = te.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, EnumFacing.UP);
 
 			for (int i = fuelInventory.getSlots() - 1; i >= 0; --i)

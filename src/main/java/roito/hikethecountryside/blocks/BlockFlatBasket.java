@@ -25,7 +25,7 @@ import roito.hikethecountryside.tileentity.TileEntityFlatBasket;
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class BlockFlatBasket extends HCBlock implements ITileEntityProvider
+public class BlockFlatBasket extends HCBlock
 {
 	protected static final AxisAlignedBB AABB = new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 0.3125D, 1.0D);
 	protected static final AxisAlignedBB AABB_BOTTOM = new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 0.0625D, 1.0D);
@@ -36,7 +36,7 @@ public class BlockFlatBasket extends HCBlock implements ITileEntityProvider
 
 	public BlockFlatBasket()
 	{
-		super(Material.WOOD, SoundType.WOOD, "flat_basket", HikeTheCountryside.TAB_CRAFT, 0.5F, false, false);
+		super(Material.WOOD, "flat_basket", HikeTheCountryside.TAB_CRAFT, 0.5F, false, false);
 	}
 
 	@Override
@@ -55,9 +55,13 @@ public class BlockFlatBasket extends HCBlock implements ITileEntityProvider
 		return AABB;
 	}
 
-	@Nullable
 	@Override
-	public TileEntity createNewTileEntity(World worldIn, int meta)
+	public boolean hasTileEntity(IBlockState state) {
+		return true;
+	}
+
+	@Override
+	public TileEntity createTileEntity(World world, IBlockState state)
 	{
 		return new TileEntityFlatBasket();
 	}

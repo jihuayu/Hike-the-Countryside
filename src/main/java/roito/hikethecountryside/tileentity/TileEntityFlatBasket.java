@@ -17,6 +17,7 @@ import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
 import roito.hikethecountryside.api.block.IBlockStove;
 import roito.hikethecountryside.api.recipe.*;
+import roito.hikethecountryside.common.HCBlocksItemsRegistry;
 import roito.hikethecountryside.common.HCRecipeRegistry;
 import roito.hikethecountryside.helper.EntironmentHelper;
 import snownee.kiwi.tile.TileBase;
@@ -252,9 +253,12 @@ public class TileEntityFlatBasket extends TileBase implements ITickable
 
 	public boolean hasHeat()
 	{
-		if (this.getWorld().getBlockState(getPos().down()).getBlock() instanceof IBlockStove)
-		{
-			return ((IBlockStove)this.getWorld().getBlockState(getPos().down()).getBlock()).isBurning(getWorld(), pos.down());
+		if (hasWorld()) {
+			IBlockState state = getWorld().getBlockState(getPos().down());
+			if (state.getBlock() instanceof IBlockStove)
+			{
+				return ((IBlockStove) state.getBlock()).isBurning(state);
+			}
 		}
 		return false;
 	}
