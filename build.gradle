@@ -98,6 +98,6 @@ dependencies {
         exclude group: 'cofh'
     }
     compile files(
-        'libs/Kiwi-1.12.2-0.4.1.10-deobf.jar'
+        'libs/Kiwi-1.12.2-0.5.0-deobf.jar'
     )
 }
