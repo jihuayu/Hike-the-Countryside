@@ -1,12 +1,8 @@
 package roito.hikethecountryside.tileentity;
 
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.network.NetworkManager;
-import net.minecraft.network.play.server.SPacketUpdateTileEntity;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.NonNullList;
@@ -20,10 +16,11 @@ import roito.hikethecountryside.api.block.IBlockStove;
 import roito.hikethecountryside.api.recipe.*;
 import roito.hikethecountryside.common.HCRecipeRegistry;
 import roito.hikethecountryside.helper.EntironmentHelper;
+import snownee.kiwi.tile.TileBase;
 
 import static roito.hikethecountryside.api.recipe.FlatBasketRecipe.EMPTY_RECIPE;
 
-public class TileEntityFlatBasket extends TileEntity implements ITickable
+public class TileEntityFlatBasket extends TileBase implements ITickable
 {
 	protected int processTicks = 0;
 	protected int totalTicks = 0;
@@ -35,7 +32,7 @@ public class TileEntityFlatBasket extends TileEntity implements ITickable
 	@Override
 	public boolean hasCapability(Capability<?> capability, EnumFacing facing)
 	{
-		if (CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.equals(capability))
+		if (CapabilityItemHandler.ITEM_HANDLER_CAPABILITY == capability)
 		{
 			return true;
 		}
@@ -45,16 +42,11 @@ public class TileEntityFlatBasket extends TileEntity implements ITickable
 	@Override
 	public <T> T getCapability(Capability<T> capability, EnumFacing facing)
 	{
-		if (CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.equals(capability))
+		if (CapabilityItemHandler.ITEM_HANDLER_CAPABILITY == capability)
 		{
-			if (facing != EnumFacing.DOWN)
-			{
-				return (T) inputInventory;
-			}
-			else
-			{
-				return (T) outputInventory;
-			}
+			return facing == EnumFacing.DOWN ?
+					CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.cast(outputInventory) :
+					CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.cast(inputInventory);
 		}
 		return super.getCapability(capability, facing);
 	}
@@ -78,23 +70,13 @@ public class TileEntityFlatBasket extends TileEntity implements ITickable
 	}
 
 	@Override
-	public NBTTagCompound getUpdateTag()
-	{
-		return writeToNBT(new NBTTagCompound());
+	protected void readPacketData(NBTTagCompound data) {
+		readFromNBT(data);
 	}
 
 	@Override
-	public SPacketUpdateTileEntity getUpdatePacket()
-	{
-		NBTTagCompound nbtTag = new NBTTagCompound();
-		this.writeToNBT(nbtTag);
-		return new SPacketUpdateTileEntity(getPos(), 1, nbtTag);
-	}
-
-	@Override
-	public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity packet)
-	{
-		this.readFromNBT(packet.getNbtCompound());
+	protected NBTTagCompound writePacketData(NBTTagCompound data) {
+		return writeToNBT(data);
 	}
 
 	@Override
@@ -102,6 +84,11 @@ public class TileEntityFlatBasket extends TileEntity implements ITickable
 	{
 		if (!world.isRemote)
 		{
+			ItemStack input = this.inputInventory.getStackInSlot(0);
+			if (input.isEmpty())
+			{
+				return;
+			}
 			Biome biome = this.getWorld().getBiome(pos);
 			switch (this.getMode())
 			{
@@ -138,14 +125,14 @@ public class TileEntityFlatBasket extends TileEntity implements ITickable
 
 	private boolean process(IRecipeManager<IFlatBasketRecipe> recipeManager)
 	{
-		ItemStack input = this.inputInventory.getStackInSlot(0).copy();
+		ItemStack input = this.inputInventory.getStackInSlot(0);
 		if (input.isEmpty())
 		{
 			return false;
 		}
-		if (!usedRecipe.isTheSameInput(this.inputInventory.getStackInSlot(0)))
+		if (!usedRecipe.isTheSameInput(input))
 		{
-			usedRecipe = recipeManager.getRecipe(this.inputInventory.getStackInSlot(0));
+			usedRecipe = recipeManager.getRecipe(input);
 		}
 		if (usedRecipe != EMPTY_RECIPE)
 		{
@@ -262,9 +249,12 @@ public class TileEntityFlatBasket extends TileEntity implements ITickable
 
 	public boolean hasHeat()
 	{
-		if (this.getWorld().getBlockState(getPos().down()).getBlock() instanceof IBlockStove)
-		{
-			return ((IBlockStove)this.getWorld().getBlockState(getPos().down()).getBlock()).isBurning(getWorld(), pos.down());
+		if (hasWorld()) {
+			IBlockState state = getWorld().getBlockState(getPos().down());
+			if (state.getBlock() instanceof IBlockStove)
+			{
+				return ((IBlockStove) state.getBlock()).isBurning(state);
+			}
 		}
 		return false;
 	}
@@ -275,17 +265,8 @@ public class TileEntityFlatBasket extends TileEntity implements ITickable
 	}
 
 	@Override
-	public boolean shouldRefresh(World world, BlockPos pos, IBlockState oldState, IBlockState newSate)
+	public boolean shouldRefresh(World world, BlockPos pos, IBlockState oldState, IBlockState newState)
 	{
-		return oldState.getBlock() != newSate.getBlock();
-	}
-
-	void refresh()
-	{
-		if (hasWorld() && !world.isRemote)
-		{
-			IBlockState state = world.getBlockState(pos);
-			world.markAndNotifyBlock(pos, null, state, state, 11);
-		}
+		return oldState.getBlock() != newState.getBlock();
 	}
 }

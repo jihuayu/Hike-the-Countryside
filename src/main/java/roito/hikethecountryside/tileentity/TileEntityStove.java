@@ -4,9 +4,6 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.network.NetworkManager;
-import net.minecraft.network.play.server.SPacketUpdateTileEntity;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.NonNullList;
@@ -18,12 +15,17 @@ import net.minecraftforge.items.ItemStackHandler;
 import roito.hikethecountryside.api.block.IBlockStove;
 import roito.hikethecountryside.blocks.BlockStoveStone;
 import roito.hikethecountryside.common.HCBlocksItemsRegistry;
+import snownee.kiwi.tile.TileInventoryBase;
 
 import static net.minecraft.tileentity.TileEntityFurnace.getItemBurnTime;
 import static net.minecraft.tileentity.TileEntityFurnace.isItemFuel;
 
-public class TileEntityStove extends TileEntity implements ITickable
+public class TileEntityStove extends TileInventoryBase implements ITickable
 {
+	public TileEntityStove() {
+		super(1);
+	}
+
 	protected int remainTicks = 0;
 	protected int fuelTicks = 0;
 
@@ -32,7 +34,7 @@ public class TileEntityStove extends TileEntity implements ITickable
 	@Override
 	public boolean hasCapability(Capability<?> capability, EnumFacing facing)
 	{
-		if (CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.equals(capability))
+		if (CapabilityItemHandler.ITEM_HANDLER_CAPABILITY == capability)
 		{
 			return true;
 		}
@@ -42,9 +44,9 @@ public class TileEntityStove extends TileEntity implements ITickable
 	@Override
 	public <T> T getCapability(Capability<T> capability, EnumFacing facing)
 	{
-		if (CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.equals(capability))
+		if (CapabilityItemHandler.ITEM_HANDLER_CAPABILITY == capability)
 		{
-			return (T) fuelInventory;
+			return CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.cast(fuelInventory);
 		}
 		return super.getCapability(capability, facing);
 	}
@@ -68,31 +70,11 @@ public class TileEntityStove extends TileEntity implements ITickable
 	}
 
 	@Override
-	public NBTTagCompound getUpdateTag()
-	{
-		return writeToNBT(new NBTTagCompound());
-	}
-
-	@Override
-	public SPacketUpdateTileEntity getUpdatePacket()
-	{
-		NBTTagCompound nbtTag = new NBTTagCompound();
-		this.writeToNBT(nbtTag);
-		return new SPacketUpdateTileEntity(getPos(), 1, nbtTag);
-	}
-
-	@Override
-	public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity packet)
-	{
-		this.readFromNBT(packet.getNbtCompound());
-	}
-
-	@Override
 	public void update()
 	{
 		if (!this.getWorld().isRemote)
 		{
-			if(this.getWorld().getBlockState(pos.up()).getBlock().equals(HCBlocksItemsRegistry.BLOCK_FLAT_BASKET))
+			if(this.getWorld().getBlockState(pos.up()).getBlock() == HCBlocksItemsRegistry.BLOCK_FLAT_BASKET)
 			{
 				this.hasFuelOrIsBurning();
 			}
@@ -150,20 +132,13 @@ public class TileEntityStove extends TileEntity implements ITickable
 
 	public boolean isBurning()
 	{
-		if (this.remainTicks > 0)
-		{
-			return true;
-		}
-		else
-		{
-			return false;
-		}
+		return this.remainTicks > 0;
 	}
 
 	@Override
-	public boolean shouldRefresh(World world, BlockPos pos, IBlockState oldState, IBlockState newSate)
+	public boolean shouldRefresh(World world, BlockPos pos, IBlockState oldState, IBlockState newState)
 	{
-		return oldState.getBlock() != newSate.getBlock();
+		return oldState.getBlock() != newState.getBlock();
 	}
 
 	public NonNullList<ItemStack> getContents()
@@ -174,14 +149,5 @@ public class TileEntityStove extends TileEntity implements ITickable
 			list.add(this.fuelInventory.getStackInSlot(0));
 		}
 		return list;
-	}
-
-	void refresh()
-	{
-		if (hasWorld() && !world.isRemote)
-		{
-			IBlockState state = world.getBlockState(pos);
-			world.markAndNotifyBlock(pos, null, state, state, 11);
-		}
 	}
 }

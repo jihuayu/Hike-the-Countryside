@@ -1,9 +1,12 @@
 package roito.hikethecountryside.blocks;
 
+import java.util.List;
+
+import javax.annotation.Nullable;
+
 import net.minecraft.block.Block;
-import net.minecraft.block.ITileEntityProvider;
-import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.state.BlockFaceShape;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -22,10 +25,7 @@ import roito.hikethecountryside.HikeTheCountryside;
 import roito.hikethecountryside.inventory.HCGuiElementRegistry;
 import roito.hikethecountryside.tileentity.TileEntityFlatBasket;
 
-import javax.annotation.Nullable;
-import java.util.List;
-
-public class BlockFlatBasket extends HCBlock implements ITileEntityProvider
+public class BlockFlatBasket extends HCBlock
 {
 	protected static final AxisAlignedBB AABB = new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 0.3125D, 1.0D);
 	protected static final AxisAlignedBB AABB_BOTTOM = new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 0.0625D, 1.0D);
@@ -36,9 +36,10 @@ public class BlockFlatBasket extends HCBlock implements ITileEntityProvider
 
 	public BlockFlatBasket()
 	{
-		super(Material.WOOD, SoundType.WOOD, "flat_basket", HikeTheCountryside.TAB_CRAFT, 0.5F, false, false);
+		super(Material.WOOD, "flat_basket", HikeTheCountryside.TAB_CRAFT, 0.5F, false, false);
 	}
 
+	@Override
 	public void addCollisionBoxToList(IBlockState state, World worldIn, BlockPos pos, AxisAlignedBB entityBox, List<AxisAlignedBB> collidingBoxes, @Nullable Entity entityIn, boolean isActualState)
 	{
 		addCollisionBoxToList(pos, entityBox, collidingBoxes, AABB_BOTTOM);
@@ -48,14 +49,19 @@ public class BlockFlatBasket extends HCBlock implements ITileEntityProvider
 		addCollisionBoxToList(pos, entityBox, collidingBoxes, AABB_SIDE4);
 	}
 
+	@Override
 	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos)
 	{
 		return AABB;
 	}
 
-	@Nullable
 	@Override
-	public TileEntity createNewTileEntity(World worldIn, int meta)
+	public boolean hasTileEntity(IBlockState state) {
+		return true;
+	}
+
+	@Override
+	public TileEntity createTileEntity(World world, IBlockState state)
 	{
 		return new TileEntityFlatBasket();
 	}
@@ -63,9 +69,10 @@ public class BlockFlatBasket extends HCBlock implements ITileEntityProvider
 	@Override
 	public void breakBlock(World worldIn, BlockPos pos, IBlockState state)
 	{
-		if (worldIn.getTileEntity(pos) != null && (worldIn.getTileEntity(pos) instanceof TileEntityFlatBasket))
+		TileEntity tile = worldIn.getTileEntity(pos);
+		if (tile instanceof TileEntityFlatBasket)
 		{
-			TileEntityFlatBasket te = (TileEntityFlatBasket) worldIn.getTileEntity(pos);
+			TileEntityFlatBasket te = (TileEntityFlatBasket) tile;
 			IItemHandler inputInventory = te.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, EnumFacing.UP);
 			IItemHandler outputInventory = te.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, EnumFacing.DOWN);
 
@@ -100,5 +107,10 @@ public class BlockFlatBasket extends HCBlock implements ITileEntityProvider
 			playerIn.openGui(HikeTheCountryside.instance, id, worldIn, pos.getX(), pos.getY(), pos.getZ());
 		}
 		return true;
+	}
+
+	@Override
+	public BlockFaceShape getBlockFaceShape(IBlockAccess worldIn, IBlockState state, BlockPos pos, EnumFacing face) {
+		return face == EnumFacing.DOWN ? BlockFaceShape.SOLID : BlockFaceShape.UNDEFINED;
 	}
 }

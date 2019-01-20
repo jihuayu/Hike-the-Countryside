@@ -1,6 +1,5 @@
 package roito.hikethecountryside.blocks;
 
-import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
@@ -12,11 +11,10 @@ public class HCBlock extends BlockMod
 	private boolean opaqueCube;
 	private boolean fullCube;
 
-	public HCBlock(Material materialIn, SoundType sound, String name, CreativeTabs tab, float hardness, boolean opaqueCube, boolean fullCube)
+	public HCBlock(Material materialIn, String name, CreativeTabs tab, float hardness, boolean opaqueCube, boolean fullCube)
 	{
 		super(name, materialIn);
 		this.setHardness(hardness);
-		this.setSoundType(sound);
 		this.setCreativeTab(tab);
 		this.opaqueCube = opaqueCube;
 		this.fullCube = fullCube;

@@ -1,11 +1,10 @@
 package roito.hikethecountryside.api.block;
 
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.block.state.IBlockState;
 
 public interface IBlockStove
 {
-	boolean isBurning(World worldIn, BlockPos pos);
+	boolean isBurning(IBlockState state);
 
 	float getFuelEfficiency();
 }

@@ -24,7 +24,7 @@ public class WorldWeatherHandler
 
 			while (!data.weatherList.isEmpty())
 			{
-				if (this.isInTime(data.weatherList.get(0), currentDay, currentTick))
+				if (WorldWeatherHandler.isInTime(data.weatherList.get(0), currentDay, currentTick))
 				{
 					break;
 				}

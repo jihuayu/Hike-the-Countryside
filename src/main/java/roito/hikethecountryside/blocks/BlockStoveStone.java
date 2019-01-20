@@ -1,16 +1,18 @@
 package roito.hikethecountryside.blocks;
 
+import java.util.Random;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockHorizontal;
-import net.minecraft.block.ITileEntityProvider;
-import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.state.BlockFaceShape;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -22,25 +24,22 @@ import roito.hikethecountryside.api.block.IBlockStove;
 import roito.hikethecountryside.common.HCBlocksItemsRegistry;
 import roito.hikethecountryside.tileentity.TileEntityStove;
 
-import javax.annotation.Nullable;
-import java.util.Random;
-
-public class BlockStoveStone extends HCBlockHorizontal implements IBlockStove, ITileEntityProvider
+public class BlockStoveStone extends HCBlockHorizontal implements IBlockStove
 {
 	public float efficiency;
 	private static boolean keepInventory = false;
 
 	public BlockStoveStone(float lightLevel, float efficiency, String name)
 	{
-		super(Material.ROCK, SoundType.STONE, name, lightLevel == 0.0F ? HikeTheCountryside.TAB_CRAFT : null, 3.5F, false, false);
+		super(Material.ROCK, name, lightLevel == 0.0F ? HikeTheCountryside.TAB_CRAFT : null, 3.5F, false, false);
 		this.setLightLevel(lightLevel);
 		this.efficiency = efficiency;
 	}
 
 	@Override
-	public boolean isBurning(World worldIn, BlockPos pos)
+	public boolean isBurning(IBlockState state)
 	{
-		return worldIn.getBlockState(pos).getBlock().equals(HCBlocksItemsRegistry.BLOCK_LIT_STOVE_STONE);
+		return state.getBlock() == HCBlocksItemsRegistry.BLOCK_LIT_STOVE_STONE;
 	}
 
 	@Override
@@ -49,9 +48,14 @@ public class BlockStoveStone extends HCBlockHorizontal implements IBlockStove, I
 		return efficiency;
 	}
 
-	@Nullable
 	@Override
-	public TileEntity createNewTileEntity(World worldIn, int meta)
+	public boolean hasTileEntity(IBlockState state)
+	{
+		return true;
+	}
+
+	@Override
+	public TileEntity createTileEntity(World world, IBlockState state)
 	{
 		return new TileEntityStove();
 	}
@@ -59,9 +63,10 @@ public class BlockStoveStone extends HCBlockHorizontal implements IBlockStove, I
 	@Override
 	public void breakBlock(World worldIn, BlockPos pos, IBlockState state)
 	{
-		if (!keepInventory && worldIn.getTileEntity(pos) != null && (worldIn.getTileEntity(pos) instanceof TileEntityStove))
+		TileEntity tile = worldIn.getTileEntity(pos);
+		if (!keepInventory &&  tile instanceof TileEntityStove)
 		{
-			TileEntityStove te = (TileEntityStove) worldIn.getTileEntity(pos);
+			TileEntityStove te = (TileEntityStove) tile;
 			IItemHandler fuelInventory = te.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, EnumFacing.UP);
 
 			for (int i = fuelInventory.getSlots() - 1; i >= 0; --i)
@@ -114,5 +119,10 @@ public class BlockStoveStone extends HCBlockHorizontal implements IBlockStove, I
 			worldIn.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, d0 + d4, d1 + 1.0D, d2 + d4, 0.0D, 0.1D, 0.0D, new int[0]);
 			worldIn.spawnParticle(EnumParticleTypes.FLAME, d0 + d4, d1, d2 + d4, 0.0D, 0.1D, 0.0D, new int[0]);
 		}
+	}
+
+	@Override
+	public BlockFaceShape getBlockFaceShape(IBlockAccess worldIn, IBlockState state, BlockPos pos, EnumFacing face) {
+		return face == EnumFacing.UP ? BlockFaceShape.UNDEFINED : BlockFaceShape.SOLID;
 	}
 }

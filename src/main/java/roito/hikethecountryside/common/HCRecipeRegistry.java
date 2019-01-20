@@ -13,9 +13,9 @@ import javax.annotation.Nonnull;
 public class HCRecipeRegistry
 {
 	@Nonnull
-	public static IRecipeManager<IFlatBasketRecipe> managerFlatBasketDrying, managerFlatBasketWet, managerFlatBasketFermentation, managerFlatBasketBake;
+	public static final IRecipeManager<IFlatBasketRecipe> managerFlatBasketDrying, managerFlatBasketWet, managerFlatBasketFermentation, managerFlatBasketBake;
 
-	public HCRecipeRegistry()
+	static
 	{
 		managerFlatBasketDrying = new FlatBasketDryingRecipeManager();
 		managerFlatBasketWet = new FlatBasketWetRecipeManager();
